@@ -90,18 +90,11 @@ var
   DSI: TList<TDropItem>;
   DI: TDropItem;
 
-  TotalWeight: Single;
   W: Single;
 
-  Diff: Single;
-  MinDiff: Single;
   N: Integer;
 
   i, j: Integer;
-
-  Id: Integer;
-
-  A: Array[0..7] of Integer;
 
 { TDropItem }
 
@@ -138,9 +131,6 @@ begin
   DropSubList.Add(TDropItem.Create('Шмотка', 1, 1, 1));
   DropSubList.Add(TDropItem.Create('Оружие', 0.5, 1, 1));
   DropList.Add(DropSubList);
-
-  TotalWeight := 0;
-  MinDiff := 0;
 
   for DSI in DropList do
     begin
