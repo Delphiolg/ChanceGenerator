@@ -22,34 +22,6 @@ type
     constructor Create(AName: String; AWeight: Single; AMin, AMax: Integer);
   end;
 
-function GetItemFromDropSubList(AWeight: Single; ASubList: TList<TDropItem>; out AItem: TDropItem): Boolean;
-var i: Integer;
-    MinW: Single;
-    MinId: Integer;
-begin
-
-  Result := False;
-
-  MinW := ASubList[0].Weight;
-  MinId := -1;
-
-  for i := 0 to ASubList.Count - 1 do
-    begin
-      if (MinW >= ASubList[i].Weight) and (ASubList[i].Weight > AWeight) then
-        begin
-          MinW := ASubList[i].Weight;
-          MinId := i;
-        end;
-    end;
-
-  if MinId <> -1 then
-    begin
-      AItem := ASubList[MinId];
-      Result := True;
-    end
-
-end;
-
 function GetItemFromDropSubList2(AWeight: Single; ASubList: TList<TDropItem>; out AItem: TDropItem): Boolean;
 var i: Integer;
     W: Single;
