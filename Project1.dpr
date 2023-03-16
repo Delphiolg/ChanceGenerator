@@ -6,7 +6,8 @@
 
 uses
   System.SysUtils,
-  Generics.Collections, Math;
+  Generics.Collections,
+  Math;
 
 type
   TDropItem = class
