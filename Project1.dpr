@@ -62,7 +62,7 @@ var
   DSI: TList<TDropItem>;
   DI: TDropItem;
 
-  W: Single;
+  W, GroupWeight, MaxWeight: Single;
 
   N: Integer;
 
@@ -94,44 +94,63 @@ begin
 
   DropSubList := TList<TDropItem>.Create;
   DropSubList.Add(TDropItem.Create('Ветка', 50, 1, 7));
-  DropSubList.Add(TDropItem.Create('Шкурка', 24, 2, 5));
-  DropSubList.Add(TDropItem.Create('Кость', 19.5, 4, 15));
+  DropSubList.Add(TDropItem.Create('Шкурка', 20, 2, 5));
+  DropSubList.Add(TDropItem.Create('Уголь', 17, 2, 6));
+  DropSubList.Add(TDropItem.Create('Кость', 10, 4, 15));
+  DropSubList.Add(TDropItem.Create('Сталь', 3, 1, 3));
   DropList.Add(DropSubList);
 
   DropSubList := TList<TDropItem>.Create;
-  DropSubList.Add(TDropItem.Create('Заточка', 5, 1, 3));
-  DropSubList.Add(TDropItem.Create('Шмотка', 1, 1, 1));
+  DropSubList.Add(TDropItem.Create('Непонятно что, но надо', 97, 10, 12));
+  DropSubList.Add(TDropItem.Create('Заточка брони', 2, 1, 3));
+  DropSubList.Add(TDropItem.Create('Заточка оружия', 1, 1, 1));
+  DropList.Add(DropSubList);
+
+  DropSubList := TList<TDropItem>.Create;
+  DropSubList.Add(TDropItem.Create('Броня', 1, 1, 1));
   DropSubList.Add(TDropItem.Create('Оружие', 0.5, 1, 1));
   DropList.Add(DropSubList);
 
+  MaxWeight := 0;
   for DSI in DropList do
     begin
+      GroupWeight := 0;
       for DI in DSI do
-        Writeln(DI.Name, ': (', DI.CountMin, '-', DI.CountMax, ')', ' -> ', DI.Weight:3:3);
+        begin
+          GroupWeight := GroupWeight + DI.Weight;
+          Writeln(DI.Name, ': (', DI.CountMin, '-', DI.CountMax, ')', ' -> ', DI.Weight:3:3);
+        end;
+
+      if MaxWeight < GroupWeight then
+        MaxWeight := GroupWeight;
+
+//      Writeln('Group Weight: ', GroupWeight:3:3);
+      Writeln('');
     end;
 
-  Writeln('------------');
+  Writeln('#######################################################');
+  Writeln('Max Groups Weight: ', MaxWeight:3:3);
+  Writeln('#######################################################');
   Writeln('');
 
-  N := 100000;
+
+  N := 30;
 
   for j := 0 to N - 1 do
     begin
-      W := Random * 100;
-      //W := 78.845;
-//      Writeln(W:3:10);
+      W := Random * MaxWeight;
+      Writeln(W:3:10);
 
       for i := 0 to DropList.Count - 1 do
         begin
           if GetItemFromDropSubList2(W, DropList[i], DI) then
             begin
               DI.Counter := DI.Counter + 1;
-//              Writeln('Выпало: ', DI.Name, ' (', RandomRange(DI.CountMin, DI.CountMax), ') шт.');
+              Writeln('Выпало: ', DI.Name, ' (', RandomRange(DI.CountMin, DI.CountMax), ') шт.');
             end;
         end;
-
-//      Writeln('------------');
-//      Writeln('');
+      Writeln('-------------------------------------------------------');
+      Writeln('');
 
     end;
 
@@ -139,6 +158,8 @@ begin
     begin
       for DI in DSI do
         Writeln(DI.Name, ' : ', DI.Counter, ' -> ', DI.Counter / N * 100:3:3);
+
+      Writeln('');
     end;
 
   FreeAndNil(DropList);
