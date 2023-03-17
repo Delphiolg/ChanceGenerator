@@ -22,7 +22,7 @@ type
     constructor Create(AName: String; AWeight: Single; AMin, AMax: Integer);
   end;
 
-function GetItemFromDropSubList2(AWeight: Single; ASubList: TList<TDropItem>; out AItem: TDropItem): Boolean;
+function GetItemFromDropSubList(AWeight: Single; ASubList: TList<TDropItem>; out AItem: TDropItem): Boolean;
 var i: Integer;
     W: Single;
 begin
@@ -101,14 +101,20 @@ begin
   DropList.Add(DropSubList);
 
   DropSubList := TList<TDropItem>.Create;
-  DropSubList.Add(TDropItem.Create('Непонятно что, но надо', 97, 10, 12));
+//  DropSubList.Add(TDropItem.Create('Непонятно что, но надо', 97, 10, 12));
   DropSubList.Add(TDropItem.Create('Заточка брони', 2, 1, 3));
   DropSubList.Add(TDropItem.Create('Заточка оружия', 1, 1, 1));
   DropList.Add(DropSubList);
 
   DropSubList := TList<TDropItem>.Create;
-  DropSubList.Add(TDropItem.Create('Броня', 1, 1, 1));
-  DropSubList.Add(TDropItem.Create('Оружие', 0.5, 1, 1));
+  DropSubList.Add(TDropItem.Create('Броня1', 0.8, 1, 1));
+  DropSubList.Add(TDropItem.Create('Броня2', 0.8, 1, 1));
+  DropSubList.Add(TDropItem.Create('Броня3', 0.8, 1, 1));
+  DropList.Add(DropSubList);
+
+  DropSubList := TList<TDropItem>.Create;
+  DropSubList.Add(TDropItem.Create('Оружие1', 0.5, 1, 1));
+  DropSubList.Add(TDropItem.Create('Оружие2', 0.3, 1, 1));
   DropList.Add(DropSubList);
 
   MaxWeight := 0;
@@ -134,23 +140,23 @@ begin
   Writeln('');
 
 
-  N := 30;
+  N := 300;
 
   for j := 0 to N - 1 do
     begin
       W := Random * MaxWeight;
-      Writeln(W:3:10);
+//      Writeln(W:3:10);
 
       for i := 0 to DropList.Count - 1 do
         begin
-          if GetItemFromDropSubList2(W, DropList[i], DI) then
+          if GetItemFromDropSubList(W, DropList[i], DI) then
             begin
               DI.Counter := DI.Counter + 1;
-              Writeln('Выпало: ', DI.Name, ' (', RandomRange(DI.CountMin, DI.CountMax), ') шт.');
+//              Writeln('Выпало: ', DI.Name, ' (', RandomRange(DI.CountMin, DI.CountMax), ') шт.');
             end;
         end;
-      Writeln('-------------------------------------------------------');
-      Writeln('');
+//      Writeln('-------------------------------------------------------');
+//      Writeln('');
 
     end;
 
